@@ -1,0 +1,128 @@
+﻿@page "/superheroes"
+@inject ISuperHeroesService SuperHeroService
+@inject NavigationManager NavigationManager
+
+
+
+<PageTitle>Super Heroes</PageTitle>
+<br />
+
+<MudTable Items="SuperHeroService.Heroes" Hover="true" Striped="true" Dense="true" Class="mb-2">
+    <HeaderContent>
+        <MudTh></MudTh>
+        <MudTh>Id</MudTh>
+        <MudTh>Hero Name</MudTh>              
+        <MudTh>Details</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Image"><MudAvatar Image="@context.Image"/></MudTd>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="HeroName">@context.HeroName</MudTd>       
+        <MudTd DataLabel="Edit">
+            <MudIconButton OnClick="(() => ShowHero(context.Id))"
+                Icon="@Icons.Material.Filled.PublishedWithChanges"
+                Color="Color.Surface"
+                Variant="Variant.Outlined"></MudIconButton>
+            </MudTd>
+
+    </RowTemplate>
+</MudTable>
+
+
+@if (_showCard == true)
+{
+    <MudCard >
+        <MudCardMedia   Image="@hero.Image" Height="200" />
+        <MudCardContent>
+            <MudText Typo="Typo.h5">@hero.HeroName  alias  @hero.Name</MudText>
+            <MudText Typo="Typo.body2">@hero.Bio</MudText>
+            <MudGrid Justify="Justify.Center">
+                <MudItem >
+                    <MudPaper Height="140px" Width="240px" Class="pa-16 ma-2" Elevation="3">
+                        <MudText Typo="Typo.body2">@hero.BirthDate</MudText>
+                        <MudText Typo="Typo.body2">@hero.Difficulty.Title</MudText>
+                    </MudPaper>
+                </MudItem>
+                <MudItem>
+                    <MudPaper Height="140px" Width="240px" Class="pa-16 ma-2" Elevation="3">
+                        <MudText Typo="Typo.body2">@hero.Comic.Name</MudText>
+                        <MudAlert Severity="Severity.Success">@hero.IsReadyToFight</MudAlert>
+                    </MudPaper>
+                </MudItem>           
+            </MudGrid>
+
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton OnClick="(() => EditHero(hero.Id))" Variant="Variant.Text" Color="Color.Primary">Edit SuperHero</MudButton>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">Delete SuperHero</MudButton>
+        </MudCardActions>
+    </MudCard>
+}
+
+<p style="height:400px;"></p>
+
+
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Hero Name</th>
+            <th>Comic</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hero in SuperHeroService.Heroes)
+        {
+            <tr>
+                <td>@hero.FirstName</td>
+                <td>@hero.LastName</td>
+                <td>@hero.HeroName</td>
+                <td>@hero.Comic.Name</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="(() => ShowHero(hero.Id))"><i class="oi oi-pencil"></i></button>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+*@
+
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    private bool _showCard = false;
+
+    SuperHero hero = new SuperHero
+        {
+            Comic = new Comic(),
+            Difficulty = new Difficulty(),
+            Team = new Team()
+        };
+
+    protected override async Task OnInitializedAsync()
+    {        
+        await SuperHeroService.GetSuperHeroes();       
+    }
+
+    public async Task ShowHero(int id)
+    {
+        var heroToShow = SuperHeroService.Heroes.Find(x => x.Id == id);
+        if (SuperHeroService.Heroes != null)
+        {
+            hero = heroToShow;
+            _showCard = true;
+        }
+
+    }
+
+     void EditHero(int id)
+    {
+        NavigationManager.NavigateTo($"hero/{id}");
+    }
+
+}
