@@ -1,7 +1,9 @@
 ﻿@page "/hero/{id:int}/"
 @inject ISuperHeroesService SuperHeroesService
 
-@*@if(Id == null)
+
+
+@if(Id == null)
 {
     <PageTitle>Create a new Super Hero</PageTitle>
     <h3>Create a new Super Hero</h3>
@@ -40,7 +42,7 @@ else
 
     <button type="button" class="btn btn-danger" @onclick="DeleteHero">Delete Hero</button>
 
-</EditForm>*@
+</EditForm>
 
 
 @code {
@@ -78,21 +80,21 @@ else
         }
     }
 
-    //async Task HandleSubmit()
-    //{
-    //    if (Id == null)
-    //    {
-    //        await SuperHeroesService.CreateHero(hero);
-    //    }
-    //    else
-    //    {
-    //        await SuperHeroesService.UpdateHero(hero);
-    //    }
-    //}
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+            await SuperHeroesService.CreateSuperHero(hero);
+        }
+        else
+        {
+            await SuperHeroesService.UpdateSuperHero(hero);
+        }
+    }
 
-    //async Task DeleteHero()
-    //{
-    //    await SuperHeroesService.DeleteHero(hero.Id);
-    //}
+    async Task DeleteHero()
+    {
+        await SuperHeroesService.DeleteSuperHero(hero.Id);
+    }
 
 }

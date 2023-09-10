@@ -23,12 +23,12 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
 
         Task <SuperHero>GetSingleHero(int id);
 
-        //Task CreateHero(SuperHero hero);
+        Task CreateSuperHero(SuperHero hero);
 
-        //Task SetHeroes(HttpResponseMessage result);
+        Task SetSuperHeroes(HttpResponseMessage result);
 
-        //Task DeleteHero(int id);
-        //Task UpdateHero(SuperHero hero);
+        Task DeleteSuperHero(int id);
+        Task UpdateSuperHero(SuperHero hero);
 
 
 

@@ -27,7 +27,7 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
 
         public async Task GetComic()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Comic>>("api/superheroes/comics");
+            var result = await _httpClient.GetFromJsonAsync<List<Comic>>("api/superhero/comics");
             if (result != null)
             {
                 Comics = result;
@@ -36,7 +36,7 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
 
         public async Task GetTeam()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Team>>("api/superheroes/teams");
+            var result = await _httpClient.GetFromJsonAsync<List<Team>>("api/superhero/teams");
             if (result != null)
             {
                 Teams = result;
@@ -45,7 +45,7 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
 
         public async Task GetDifficulty()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Difficulty>>("api/superheroes/difficulties");
+            var result = await _httpClient.GetFromJsonAsync<List<Difficulty>>("api/superhero/difficulties");
             if (result != null)
             {
                 Difficulties = result;
@@ -71,32 +71,29 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
             }
         }
 
-        //    public async Task CreateHero(SuperHero hero)
-        //    {
-        //        var result = await _httpClient.PostAsJsonAsync("api/superhero", hero);
-        //        await SetHeroes(result);
+        public async Task CreateSuperHero(SuperHero hero)
+        {
+            var result = await _httpClient.PostAsJsonAsync("api/superhero", hero);
+            await SetSuperHeroes(result);
+        }
 
-        //    }
+        public async Task DeleteSuperHero(int id)
+        {
+            var result = await _httpClient.DeleteAsync($"api/superhero/{id}");
+            await SetSuperHeroes(result);
+        }
 
-        //    public async Task SetHeroes(HttpResponseMessage result)
-        //    {
+        public async Task UpdateSuperHero(SuperHero hero)
+        {
+            var result = await _httpClient.PutAsJsonAsync($"api/superhero/{hero.Id}", hero);
+            await SetSuperHeroes(result);
+        }
 
-        //        var response = await result.Content.ReadFromJsonAsync<List<SuperHero>>();
-        //        Heroes = response;
-        //        _navigationManager.NavigateTo("superheroes");
-
-        //    }
-
-        //    public async Task DeleteHero(int id)
-        //    {
-        //        var result = await _httpClient.DeleteAsync($"api/superhero/{id}");
-        //        await SetHeroes(result);
-        //    }
-
-        //    public async Task UpdateHero(SuperHero hero)
-        //    {
-        //        var result = await _httpClient.PutAsJsonAsync($"api/superhero/{hero.Id}", hero);
-        //        await SetHeroes(result);
-        //    }
+        public async Task SetSuperHeroes(HttpResponseMessage result)
+        {
+            var response = await result.Content.ReadFromJsonAsync<List<SuperHero>>();
+            Heroes = response;
+            _navigationManager.NavigateTo("superheroes");
+        }
     }
 }
