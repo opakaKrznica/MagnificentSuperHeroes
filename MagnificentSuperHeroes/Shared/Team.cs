@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MagnificentSuperHeroes.Shared
 {
-        public class Team
+    public class Team
     {
-        [Required, Range(1, int.MaxValue, ErrorMessage = "The Id can't be smaller than 1!")]
+        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please give this character a name. Thanks! :)")]

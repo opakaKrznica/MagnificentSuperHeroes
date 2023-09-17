@@ -5,7 +5,7 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
     public interface ISuperHeroesService
     {
         
-        List<SuperHero> Heroes { get; set; }
+        List<SuperHero> SuperHeroes { get; set; }
 
         List<Comic> Comics { get; set; }
 
@@ -26,7 +26,6 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
         Task CreateSuperHero(SuperHero hero);
 
         Task SetSuperHeroes(HttpResponseMessage result);
-
         Task DeleteSuperHero(int id);
         Task UpdateSuperHero(SuperHero hero);
 

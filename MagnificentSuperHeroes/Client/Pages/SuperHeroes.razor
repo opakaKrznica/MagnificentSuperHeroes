@@ -7,7 +7,7 @@
 <PageTitle>Super Heroes</PageTitle>
 <br />
 
-<MudTable Items="SuperHeroService.Heroes" Hover="true" Striped="true" Dense="true" Class="mb-2">
+<MudTable Items="SuperHeroService.SuperHeroes" Hover="true" Striped="true" Dense="true" Class="mb-2">
     <HeaderContent>
         <MudTh></MudTh>
         <MudTh>Id</MudTh>
@@ -24,9 +24,9 @@
                 Color="Color.Surface"
                 Variant="Variant.Outlined"></MudIconButton>
             </MudTd>
-
     </RowTemplate>
 </MudTable>
+<MudButton OnClick="(() => CreateHero())" Variant="Variant.Text" Color="Color.Primary">Create SuperHero</MudButton>
 
 
 @if (_showCard == true)
@@ -54,7 +54,7 @@
         </MudCardContent>
         <MudCardActions>
             <MudButton OnClick="(() => EditHero(hero.Id))" Variant="Variant.Text" Color="Color.Primary">Edit SuperHero</MudButton>
-            <MudButton Variant="Variant.Text" Color="Color.Primary">Delete SuperHero</MudButton>
+            <MudButton  OnClick="(() => DeleteSuperHero(hero.Id))" Variant="Variant.Text" Color="Color.Primary">Delete SuperHero</MudButton>
         </MudCardActions>
     </MudCard>
 }
@@ -111,8 +111,8 @@
 
     public async Task ShowHero(int id)
     {
-        var heroToShow = SuperHeroService.Heroes.Find(x => x.Id == id);
-        if (SuperHeroService.Heroes != null)
+        var heroToShow = SuperHeroService.SuperHeroes.Find(x => x.Id == id);
+        if (SuperHeroService.SuperHeroes != null)
         {
             hero = heroToShow;
             _showCard = true;
@@ -120,9 +120,20 @@
 
     }
 
-     void EditHero(int id)
+    void EditHero(int id)
     {
         NavigationManager.NavigateTo($"hero/{id}");
+    }
+
+    void CreateHero()
+    {
+        NavigationManager.NavigateTo("hero");
+    }
+
+    async Task DeleteSuperHero(int id)
+    {
+        await SuperHeroService.DeleteSuperHero(hero.Id);
+        _showCard = false;
     }
 
 }

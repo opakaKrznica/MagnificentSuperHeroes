@@ -9,16 +9,15 @@ namespace MagnificentSuperHeroes.Shared
 {
     public class SuperHero
     {
-        [Required, Range (1, int.MaxValue, ErrorMessage = "The Id can't be smaller than 1!")]
+        
         public int Id { get; set; }
 
-        [Required, Range(1, int.MaxValue, ErrorMessage = "Please give this character a name. Thanks! :)")]
-
+        [Required(ErrorMessage = "Please give this character a name. Thanks! :)")]
         public string Name { get; set; } = string.Empty;
         public string HeroName { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
 
-        public DateTime BirthDate { get; set; } = DateTime.Now.Date;
+        public DateTime? BirthDate { get; set; } = DateTime.Now.Date;
         public string Image { get; set; } = string.Empty;
         public Team Team { get; set; } 
         public Difficulty Difficulty { get; set; }        

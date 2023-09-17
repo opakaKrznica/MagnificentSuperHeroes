@@ -1,6 +1,7 @@
 global using MagnificentSuperHeroes.Shared;
-using MagnificentSuperHeroes.Server.Data;
-using Microsoft.EntityFrameworkCore;
+global using MagnificentSuperHeroes.Server.Data;
+global using Microsoft.EntityFrameworkCore;
+global using System.Net.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 

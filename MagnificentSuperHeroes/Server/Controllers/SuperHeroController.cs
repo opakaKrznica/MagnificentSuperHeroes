@@ -1,7 +1,5 @@
-﻿using MagnificentSuperHeroes.Server.Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+
 
 namespace MagnificentSuperHeroes.Server.Controllers
 {
@@ -67,9 +65,11 @@ namespace MagnificentSuperHeroes.Server.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<List<SuperHero>>> CreateSuperHero(SuperHero hero)
+        public async Task<ActionResult<SuperHero>> CreateSuperHero(SuperHero hero)
         {
-            //hero.Comic = null;
+            hero.Comic = null;
+            hero.Team = null;
+            hero.Difficulty = null;
             _context.SuperHeroes.Add(hero);
             await _context.SaveChangesAsync();
 
@@ -83,7 +83,7 @@ namespace MagnificentSuperHeroes.Server.Controllers
             var dbHero = await _context.SuperHeroes
                  .Include(h => h.Comic)
                 .Include(h => h.Team)
-                .Include(h => h.Difficulty)
+                .Include(h => h.Difficulty)                
                 .FirstOrDefaultAsync(h => h.Id == id);
 
             if (dbHero == null)
@@ -91,7 +91,7 @@ namespace MagnificentSuperHeroes.Server.Controllers
 
             dbHero.Name = hero.Name;
             dbHero.HeroName = hero.HeroName;
-            dbHero.Bio = hero.Name;
+            dbHero.Bio = hero.Bio;
             dbHero.BirthDate = hero.BirthDate;
             dbHero.TeamId = hero.TeamId;
             dbHero.ComicId = hero.ComicId;
@@ -110,7 +110,7 @@ namespace MagnificentSuperHeroes.Server.Controllers
             var dbHero = await _context.SuperHeroes
                   .Include(h => h.Comic)
                   .Include(h => h.Team)
-                  .Include(h => h.Difficulty)
+                  .Include(h => h.Difficulty)                  
                   .FirstOrDefaultAsync(sh => sh.Id == id);
 
             if (dbHero == null)
@@ -124,7 +124,11 @@ namespace MagnificentSuperHeroes.Server.Controllers
 
         private async Task<List<SuperHero>> GetDbHeroes()
         {
-            return await _context.SuperHeroes.Include(sh => sh.Comic).ToListAsync();
+            return await _context.SuperHeroes
+                .Include(sh => sh.Comic)
+                .Include(h => h.Team)
+                .Include(hx=> hx.Difficulty)                
+                .ToListAsync();
         }
     }
 }

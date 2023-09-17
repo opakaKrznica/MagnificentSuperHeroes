@@ -1,7 +1,9 @@
-﻿using MagnificentSuperHeroes.Shared;
-using Microsoft.AspNetCore.Components;
-using System.Net.Http.Json;
-using static System.Net.WebRequestMethods;
+﻿using Microsoft.AspNetCore.Components;
+
+
+
+
+
 
 namespace MagnificentSuperHeroes.Client.SuperHeroesService
 {
@@ -16,14 +18,17 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
             _navigationManager = navigationManager;
         }
 
-        public List<SuperHero> Heroes {get; set;} = new List<SuperHero>();
+        public List<SuperHero> SuperHeroes {get; set;} = new List<SuperHero>();
         public List<Comic> Comics { get; set; } = new List<Comic>();    
         public List<Team> Teams { get; set; } = new List<Team>();
         public List<Difficulty> Difficulties { get; set; } = new List<Difficulty>();
-
-       
-
-        bool isNew = true;
+              
+                
+        public async Task CreateSuperHero(SuperHero hero)
+        {
+            var result = await _httpClient.PostAsJsonAsync("api/superhero", hero);
+            await SetSuperHeroes(result);
+        }
 
         public async Task GetComic()
         {
@@ -67,15 +72,11 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
             var result = await _httpClient.GetFromJsonAsync<List<SuperHero>>("api/superhero");
             if (result != null)
             {
-                Heroes = result;
+                SuperHeroes = result;
             }
         }
 
-        public async Task CreateSuperHero(SuperHero hero)
-        {
-            var result = await _httpClient.PostAsJsonAsync("api/superhero", hero);
-            await SetSuperHeroes(result);
-        }
+   
 
         public async Task DeleteSuperHero(int id)
         {
@@ -92,7 +93,7 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
         public async Task SetSuperHeroes(HttpResponseMessage result)
         {
             var response = await result.Content.ReadFromJsonAsync<List<SuperHero>>();
-            Heroes = response;
+            SuperHeroes = response;
             _navigationManager.NavigateTo("superheroes");
         }
     }

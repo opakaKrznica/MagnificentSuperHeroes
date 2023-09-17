@@ -1,4 +1,6 @@
-﻿@page "/hero/{id:int}/"
+﻿@page "/hero"
+@page "/hero/{id:int}"
+
 @inject ISuperHeroesService SuperHeroesService
 
 
@@ -29,6 +31,9 @@ else
         <InputText id="bio" @bind-Value="hero.Bio" class="form-control"></InputText>
     </div>
     <div>
+        <MudDatePicker Label="Birth Date" @bind-Date="hero.BirthDate" Color="Color.Secondary"></MudDatePicker>
+    </div>
+    <div>
         <label>Comic</label><br />
         <InputSelect @bind-Value="hero.ComicId" class="form-control">
             @foreach (var comic in SuperHeroesService.Comics)
@@ -37,11 +42,30 @@ else
             }
         </InputSelect>
     </div>
+    <div>
+        <label>Team</label><br />
+        <InputSelect @bind-Value="hero.TeamId" class="form-control">
+            @foreach (var team in SuperHeroesService.Teams)
+            {
+                <option value="@team.Id">@team.Name</option>
+            }
+        </InputSelect>
+    </div>
+    <div>
+        <label>Difficulty</label><br />
+        <InputSelect @bind-Value="hero.DifficultyId" class="form-control">
+            @foreach (var diff in SuperHeroesService.Difficulties)
+            {
+                <option value="@diff.Id">@diff.Title</option>
+            }
+        </InputSelect>
+    </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnTxt</button>
-
-    <button type="button" class="btn btn-danger" @onclick="DeleteHero">Delete Hero</button>
-
+    @if (Id != null)
+    {
+        <button type="button" class="btn btn-danger" @onclick="DeleteHero">Delete Hero</button>
+    }
 </EditForm>
 
 
@@ -61,12 +85,16 @@ else
     {
         btnTxt = Id == null ? "Save New Hero" : "Update Hero";
         await SuperHeroesService.GetComic();
+        await SuperHeroesService.GetDifficulty();
+        await SuperHeroesService.GetTeam();
+       
     }
 
     protected override async Task OnParametersSetAsync()
     {
         if (Id == null)
         {
+            
             hero.Comic = SuperHeroesService.Comics[0];
             hero.ComicId = hero.Comic.Id;
             hero.Team = SuperHeroesService.Teams[0];
