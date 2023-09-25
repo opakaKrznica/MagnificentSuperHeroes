@@ -5,8 +5,9 @@
 
 
 <PageTitle>Super Heroes</PageTitle>
+<h3><center>Super Heroes</center></h3>
 <br />
-
+<p style="height:10px;"></p>
 <MudTable Items="SuperHeroService.SuperHeroes" Hover="true" Striped="true" Dense="true" Class="mb-2">
     <HeaderContent>
         <MudTh></MudTh>
@@ -26,27 +27,47 @@
             </MudTd>
     </RowTemplate>
 </MudTable>
+<p style="height:10px;"></p>
 <MudButton OnClick="(() => CreateHero())" Variant="Variant.Text" Color="Color.Primary">Create SuperHero</MudButton>
-
+<p style="height:10px;"></p>
 
 @if (_showCard == true)
 {
-    <MudCard >
+    <MudCard Elevation="6">
         <MudCardMedia   Image="@hero.Image" Height="200" />
-        <MudCardContent>
-            <MudText Typo="Typo.h5">@hero.HeroName  alias  @hero.Name</MudText>
+        <MudCardContent >
+            <MudText Typo="Typo.h5">@hero.Name alias  @hero.HeroName</MudText>
+            
             <MudText Typo="Typo.body2">@hero.Bio</MudText>
             <MudGrid Justify="Justify.Center">
                 <MudItem >
-                    <MudPaper Height="140px" Width="240px" Class="pa-16 ma-2" Elevation="3">
-                        <MudText Typo="Typo.body2">@hero.BirthDate</MudText>
-                        <MudText Typo="Typo.body2">@hero.Difficulty.Title</MudText>
+                    <MudPaper Height="280px" Width="340px" Class="pa-6 ma-1"  Elevation="6">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6" Class="mb-n6" Align="Align.Center">The Team Name</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Align="Align.Center" Style="@($"color:{Colors.LightBlue.Darken4}; background:{Colors.BlueGrey.Lighten5};")" Class="rounded-2">@hero.Team.Name</MudText>
+                        </MudCardContent>
+                        <p style="height:10px;"></p>
+                        <MudDatePicker Class="px-3" Label="Birth Date" @bind-Date="hero.BirthDate" Color="Color.Secondary" ReadOnly="true"></MudDatePicker>
                     </MudPaper>
                 </MudItem>
                 <MudItem>
-                    <MudPaper Height="140px" Width="240px" Class="pa-16 ma-2" Elevation="3">
-                        <MudText Typo="Typo.body2">@hero.Comic.Name</MudText>
-                        <MudAlert Severity="Severity.Success">@hero.IsReadyToFight</MudAlert>
+                    <MudPaper Height="280px" Width="340px" Class="pa-6 ma-1" Elevation="6">
+                     <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6" Class="mb-n6" Align="Align.Center">The Comic Title</MudText>
+                         </CardHeaderContent>                        
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6" Align="Align.Center" Style="@($"color:{Colors.LightBlue.Darken4}; background:{Colors.BlueGrey.Lighten5};")" Class="rounded-2">@hero.Comic.Name</MudText>
+                    </MudCardContent>
+                        
+                        <MudAlert Class="h6" Severity="Severity.Success">SuperHero ready to fight? <b>@hero.IsReadyToFight</b> </MudAlert>
+                        <p></p>
+                        <MudText Typo="Typo.h6" Align="Align.Center" Style="@($"background:{Colors.BlueGrey.Lighten5};")">Super Hero Difficulty : <b>@hero.Difficulty.Title</b> </MudText>
                     </MudPaper>
                 </MudItem>           
             </MudGrid>
@@ -59,43 +80,14 @@
     </MudCard>
 }
 
-<p style="height:400px;"></p>
-
-
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Hero Name</th>
-            <th>Comic</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var hero in SuperHeroService.Heroes)
-        {
-            <tr>
-                <td>@hero.FirstName</td>
-                <td>@hero.LastName</td>
-                <td>@hero.HeroName</td>
-                <td>@hero.Comic.Name</td>
-                <td>
-                    <button class="btn btn-primary" @onclick="(() => ShowHero(hero.Id))"><i class="oi oi-pencil"></i></button>
-                </td>
-            </tr>
-
-        }
-    </tbody>
-</table>
-*@
-
-
+<p style="height:100px;"></p>
 
 @code {
     [Parameter]
     public int? Id { get; set; }
     private bool _showCard = false;
+   // string onlyDate = default;
+    //DateTime onlDat = new DateTime();
 
     SuperHero hero = new SuperHero
         {
@@ -120,6 +112,20 @@
 
     }
 
+    async Task DeleteSuperHero(int id)
+    {
+        await SuperHeroService.DeleteSuperHero(hero.Id);
+        _showCard = false;
+    }
+
+    //private async Task OnlyDate()
+    //{
+    //    DateTime heroBirth = SuperHeroService.Hero.BirthDate;
+    //    var oD = heroBirth.Date.ToString("MM/dd/yyyy");
+    //    onlyDate = oD;
+
+    //}
+
     void EditHero(int id)
     {
         NavigationManager.NavigateTo($"hero/{id}");
@@ -130,10 +136,5 @@
         NavigationManager.NavigateTo("hero");
     }
 
-    async Task DeleteSuperHero(int id)
-    {
-        await SuperHeroService.DeleteSuperHero(hero.Id);
-        _showCard = false;
-    }
-
+   
 }

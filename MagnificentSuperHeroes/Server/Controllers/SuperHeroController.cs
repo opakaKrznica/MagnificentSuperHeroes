@@ -65,7 +65,7 @@ namespace MagnificentSuperHeroes.Server.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<SuperHero>> CreateSuperHero(SuperHero hero)
+        public async Task<ActionResult<SuperHero>>CreateSuperHero(SuperHero hero)
         {
             hero.Comic = null;
             hero.Team = null;
@@ -97,6 +97,7 @@ namespace MagnificentSuperHeroes.Server.Controllers
             dbHero.ComicId = hero.ComicId;
             dbHero.DifficultyId = hero.DifficultyId;
             dbHero.IsReadyToFight = hero.IsReadyToFight;
+            dbHero.Image = hero.Image;  
 
             await _context.SaveChangesAsync();
 

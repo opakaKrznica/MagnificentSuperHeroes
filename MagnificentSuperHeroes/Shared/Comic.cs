@@ -9,10 +9,9 @@ namespace MagnificentSuperHeroes.Shared
 {
     public class Comic
     {
-        [Required, Range(1, int.MaxValue, ErrorMessage = "The Id can't be smaller than 1!")]
+        
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please give this character a name. Thanks! :)")]
         public string Name { get; set; } = string.Empty;
     }
 }

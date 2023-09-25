@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-
-
-
-
+using Microsoft.AspNetCore.Components.Forms;
 
 
 namespace MagnificentSuperHeroes.Client.SuperHeroesService
@@ -18,6 +15,7 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
             _navigationManager = navigationManager;
         }
 
+        public SuperHero Hero { get; set; } = new SuperHero();
         public List<SuperHero> SuperHeroes {get; set;} = new List<SuperHero>();
         public List<Comic> Comics { get; set; } = new List<Comic>();    
         public List<Team> Teams { get; set; } = new List<Team>();
@@ -96,5 +94,16 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
             SuperHeroes = response;
             _navigationManager.NavigateTo("superheroes");
         }
+
+        //public async Task OnFileChange(InputFileChangeEventArgs e)
+        //{
+        //    var format = "image/png";
+        //    var resizedImage = await e.File.RequestImageFileAsync(format, 200, 200);
+        //    var buffer = new byte[resizedImage.Size];
+        //    await resizedImage.OpenReadStream().ReadAsync(buffer);
+        //    var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+        //    Hero.Image = imageData;
+
+        //}
     }
 }

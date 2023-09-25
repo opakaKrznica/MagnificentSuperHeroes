@@ -1,10 +1,11 @@
 ﻿using MagnificentSuperHeroes.Shared;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace MagnificentSuperHeroes.Client.SuperHeroesService
 {
     public interface ISuperHeroesService
     {
-        
+        SuperHero Hero { get; set; }
         List<SuperHero> SuperHeroes { get; set; }
 
         List<Comic> Comics { get; set; }
@@ -26,10 +27,12 @@ namespace MagnificentSuperHeroes.Client.SuperHeroesService
         Task CreateSuperHero(SuperHero hero);
 
         Task SetSuperHeroes(HttpResponseMessage result);
+
         Task DeleteSuperHero(int id);
+
         Task UpdateSuperHero(SuperHero hero);
 
-
+       //Task OnFileChange(InputFileChangeEventArgs e);
 
     }
 }

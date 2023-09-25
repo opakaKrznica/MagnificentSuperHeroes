@@ -12,7 +12,6 @@ namespace MagnificentSuperHeroes.Shared
        
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please give this character a name. Thanks! :)")]
         public string Title { get; set; } = string.Empty;
     }
 }
